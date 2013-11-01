@@ -2,3 +2,16 @@ THIS IS AN INITIAL REPOSITORY FOR CODE
 TO STUDY THE EFFECTS OF USING ADVANCED
 JET RECONSTRUCTION TECHNIQUES FOR ZHbb
 DECAYS.
+
+
+
+####################
+# git instructions #
+####################
+
+git init myWorkingArea
+cd myWorkingArea
+git remote add origin https://github.com/awhitbeck/ZHbbAnalysis
+git pull origin master
+
+
