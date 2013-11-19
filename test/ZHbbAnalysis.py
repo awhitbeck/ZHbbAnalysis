@@ -59,28 +59,28 @@ process.atLeastTwoJets = cms.EDFilter("CandViewCountFilter",
 ## PERFORM TELESCOPING AND FILL TREE
 process.TreeFiller = cms.EDAnalyzer("ZHbbTreeFiller",
                                     ZCandCollection  = cms.untracked.string('ZCandidate'),
-                                    # USED FOR SIGNAL
-                                    #pfCandCollection = cms.untracked.string('pfNoElectronPFlow')
-                                    # USED FOR BACKGROUND
-                                    pfCandCollection = cms.untracked.string('selectedPatJetsPFlow')
-                                    # MUST FIX!!! PAT-TUPLES NOT CREATED WITH CONSISTENT VERSIONS
-                                    # OF CODE... NEED TO REMAKE SOMETHING
+                                    pfCandCollection = cms.untracked.string('pfNoElectronPFlow'),
+                                    isGen = cms.untracked.bool( False )
                                     )
 
 ## CONFIGURE TFILESERVICE
 
 process.TFileService = cms.Service("TFileService",
-      fileName = cms.string("ZHbbAnalysisTree.root"),
+      fileName = cms.string("ZHbbAnalysisTree_nt.root"),
       closeFileFast = cms.untracked.bool(True)
   )
 
 ##  MAXIMUM NUMBER OF EVENTS TO PROCESS
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 ##  LOAD DATAFILES
-#process.load("AWhitbeck.JetHisto.testSample_cff")
-#process.load("AWhitbeck.JetHisto.ZHbbSample_cff")
-process.load("AWhitbeck.JetHisto.ZjetsSample_cff")
+#process.load("AWhitbeck.ZHbbAnalysis.ZHbbSample_cff")
+process.load("AWhitbeck.ZHbbAnalysis.ZjetsSample_pt100_cff")
+
+#process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring(
+#        "/store/user/bparida/DYJetsToLL_PtZ-100_TuneZ2star_8TeV-madgraph/DYJetsToLL_PtZ-100_TuneZ2star_8TeV-madgraph/d1dd4fe4091510a6bd0f3de124216781/tlbsm_53x_v3_mc_157_1_KuJ.root"
+#    )
+#)
 
 
 ##  DEFINE PATH
@@ -89,13 +89,13 @@ process.p = cms.Path(process.minPtMuons*process.atLeastTwoMuons*process.ZCandida
                      +process.TreeFiller)
 
 
-##  OUPUT CONFIGURATION
-process.out = cms.OutputModule("PoolOutputModule",
-                               fileName = cms.untracked.string('test.root'),
-                               #save only events passing the full path
-                               SelectEvents = cms.untracked.PSet( SelectEvents = cms.vstring('p') ),
-                               outputCommands = cms.untracked.vstring('keep *_*Candidate_*_*',
-                                                                      'keep *_selectedPat*_*_*')
-                               )
-
-process.outpath = cms.EndPath(process.out)
+###  OUPUT CONFIGURATION
+#process.out = cms.OutputModule("PoolOutputModule",
+#                               fileName = cms.untracked.string('test.root'),
+#                               #save only events passing the full path
+#                               SelectEvents = cms.untracked.PSet( SelectEvents = cms.vstring('p') ),
+#                               outputCommands = cms.untracked.vstring('keep *_*Candidate_*_*',
+#                                                                      'keep *_selectedPat*_*_*')
+#                               )
+#
+#process.outpath = cms.EndPath(process.out)
